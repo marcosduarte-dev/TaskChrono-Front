@@ -1,1 +1,49 @@
-<p>List Projects</p>
+<div class="p-4">
+  <div
+    class="flex align-items-center justify-content-center surface-border w-full font-bold"
+  >
+    <p class="text-5xl title">PROJECTS</p>
+  </div>
+  <div class="mt-4">
+    <p-table [value]="list" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Color</th>
+          <th>UserID</th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-project>
+        <tr>
+          <td>{{ project.id }}</td>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>
+            <p-tag
+              icon="pi pi-palette"
+              [style]="{
+                background: project.color,
+                color: getTextColor(project.color)
+              }"
+              [value]="project.color"
+            ></p-tag>
+          </td>
+          <td>{{ project.user_id }}</td>
+          <td>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-pencil"
+              (click)="editProject(project)"
+              class="p-button-rounded p-button-text"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,17 +1,15 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { AppModule } from './app.module';
 import { SharedModule } from './shared/shared.module';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { BrowserModule } from '@angular/platform-browser';
+import { ComponentsModule } from './components/components.module';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SharedModule],
+  imports: [ComponentsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'TaskChrono';
