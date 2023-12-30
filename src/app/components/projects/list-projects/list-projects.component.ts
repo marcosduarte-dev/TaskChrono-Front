@@ -17,6 +17,7 @@ export class ListProjectsComponent implements OnInit {
   list: ProjectModel[] = [];
 
   submitted: boolean = false;
+  loaded: boolean = false;
 
   selectedProject!: ProjectModel[] | null;
 
@@ -38,6 +39,7 @@ export class ListProjectsComponent implements OnInit {
   getProjects() {
     this.projectService.getProjects().subscribe((projects: ProjectModel[]) => {
       this.list = projects;
+      this.loaded = true;
     });
   }
 
