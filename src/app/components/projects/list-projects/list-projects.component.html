@@ -1,10 +1,27 @@
+<p-toast></p-toast>
 <div class="p-4">
-  <div
-    class="flex align-items-center justify-content-center surface-border w-full font-bold"
-  >
-    <p class="text-5xl title">PROJECTS</p>
-  </div>
-  <div class="mt-4">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <div class="p-toolbar-group-start">
+      <p-button
+        styleClass="mr-2"
+        pRipple
+        label="New"
+        severity="success"
+        (click)="openNew()"
+        icon="pi pi-plus"
+      ></p-button>
+      <p-button
+        pRipple
+        label="Delete"
+        severity="danger"
+        (click)="deleteSelectedProject()"
+        [disabled]="!selectedProject || !selectedProject.length"
+        icon="pi pi-trash"
+      ></p-button>
+    </div>
+  </p-toolbar>
+
+  <div class="mt-1">
     <p-table [value]="list" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>

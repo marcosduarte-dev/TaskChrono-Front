@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectModel } from '../../../models/project.model';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
 import { ProjectService } from '../../../shared/services/project.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-projects',
@@ -14,31 +14,19 @@ import { ProjectService } from '../../../shared/services/project.service';
   providers: [],
 })
 export class ListProjectsComponent implements OnInit {
-  Projects: ProjectModel[] = [];
-
   list: ProjectModel[] = [];
 
-  cnu: ProjectModel = {} as ProjectModel;
-  pme: ProjectModel = {} as ProjectModel;
+  submitted: boolean = false;
 
-  constructor(private projectService: ProjectService) {}
+  selectedProject!: ProjectModel[] | null;
+
+  constructor(
+    private projectService: ProjectService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit() {
-    this.cnu.id = 'ID';
-    this.cnu.name = 'CNU';
-    this.cnu.description = 'Project CNU';
-    this.cnu.color = '#FFFFFF';
-    this.cnu.user_id = '1';
-
-    this.pme.id = 'ID';
-    this.pme.name = 'PME';
-    this.pme.description = 'Project PME';
-    this.pme.color = '#000000';
-    this.pme.user_id = '1';
-
-    this.Projects.push(this.cnu);
-    this.Projects.push(this.pme);
-
     this.getProjects();
     console.log(this.list);
   }
@@ -50,6 +38,26 @@ export class ListProjectsComponent implements OnInit {
   getProjects() {
     this.projectService.getProjects().subscribe((projects: ProjectModel[]) => {
       this.list = projects;
+    });
+  }
+
+  openNew() {}
+
+  deleteSelectedProject() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the selected products?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        // Delete the project
+        this.selectedProject = null;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Products Deleted',
+          life: 3000,
+        });
+      },
     });
   }
 
