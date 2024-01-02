@@ -19,7 +19,7 @@ export class ListProjectsComponent implements OnInit {
   submitted: boolean = false;
   loaded: boolean = false;
 
-  selectedProject!: ProjectModel[] | null;
+  selectedProject!: ProjectModel | null;
 
   constructor(
     private projectService: ProjectService,
@@ -47,7 +47,7 @@ export class ListProjectsComponent implements OnInit {
 
   deleteSelectedProject() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
+      message: 'Are you sure you want to delete the selected project?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -56,11 +56,20 @@ export class ListProjectsComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Products Deleted',
+          detail: 'Project Deleted',
           life: 3000,
         });
       },
     });
+  }
+
+  onRowSelect(event: any) {
+    this.selectedProject = event.data;
+    console.table(event.data);
+  }
+
+  onRowUnselect(event: any) {
+    this.selectedProject = null;
   }
 
   getTextColor(backgroundColor: string): string {

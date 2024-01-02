@@ -23,14 +23,22 @@
           label="Delete"
           severity="danger"
           (click)="deleteSelectedProject()"
-          [disabled]="!selectedProject || !selectedProject.length"
+          [disabled]="!selectedProject"
           icon="pi pi-trash"
         ></p-button>
       </div>
     </p-toolbar>
 
     <div class="mt-1">
-      <p-table [value]="list" [tableStyle]="{ 'min-width': '50rem' }">
+      <p-table
+        [value]="list"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        selectionMode="single"
+        [(selection)]="selectedProject"
+        (onRowSelect)="onRowSelect($event)"
+        (onRowUnselect)="onRowUnselect($event)"
+        dataKey="ID"
+      >
         <ng-template pTemplate="header">
           <tr>
             <th>ID</th>
@@ -42,7 +50,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-project>
-          <tr>
+          <tr [pSelectableRow]="project">
             <td>{{ project.id }}</td>
             <td>{{ project.name }}</td>
             <td>{{ project.description }}</td>
@@ -72,4 +80,6 @@
       </p-table>
     </div>
   </div>
+
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 </div>
