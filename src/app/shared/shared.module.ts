@@ -7,6 +7,7 @@ import { TagModule } from 'primeng/tag';
 import { ProjectService } from './services/project.service';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
@@ -19,6 +20,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     TagModule,
     ToastModule,
     ToolbarModule,
+    ConfirmDialogModule,
   ],
   declarations: [],
   exports: [
@@ -28,6 +30,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     TagModule,
     ToastModule,
     ToolbarModule,
+    ConfirmDialogModule,
   ],
   providers: [ProjectService, MessageService, ConfirmationService],
 })
