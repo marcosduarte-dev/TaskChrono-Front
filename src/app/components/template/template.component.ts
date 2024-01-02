@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 
 @Component({
@@ -13,4 +13,18 @@ import { SharedModule } from '../../shared/shared.module';
 export class TemplateComponent {
   sidebarVisible: boolean = true;
   sidebarModal: boolean = false;
+
+  constructor(private router: Router) {}
+
+  navigate(destination: string) {
+    console.log(destination);
+    switch (destination) {
+      case 'projects':
+        this.router.navigate(['/projects']);
+        break;
+
+      default:
+        break;
+    }
+  }
 }

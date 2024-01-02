@@ -19,6 +19,10 @@ export class ProjectService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
+  options = {
+    headers: new HttpHeaders({ mode: 'no-cors' }),
+  };
+
   getProjects(): Observable<ProjectModel[]> {
     return this.httpClient
       .get<ProjectModel[]>(this.url)
