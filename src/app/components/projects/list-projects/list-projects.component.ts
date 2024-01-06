@@ -32,7 +32,6 @@ export class ListProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getProjects();
-    console.log(this.list);
   }
 
   editProject(project: ProjectModel): void {
@@ -61,7 +60,6 @@ export class ListProjectsComponent implements OnInit {
       this.project.description?.trim() &&
       this.project.color?.trim()
     ) {
-      console.log('Create project');
       this.projectService
         .createProject(this.project)
         .subscribe((ret: ReturnModel) => {
@@ -112,7 +110,6 @@ export class ListProjectsComponent implements OnInit {
 
   onRowSelect(event: any) {
     this.selectedProject = event.data;
-    console.table(event.data);
   }
 
   onRowUnselect(event: any) {
