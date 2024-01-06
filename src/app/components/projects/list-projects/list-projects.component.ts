@@ -19,6 +19,7 @@ export class ListProjectsComponent implements OnInit {
 
   submitted: boolean = false;
   newProjectDialog: boolean = false;
+  editProjectDialog: boolean = false;
   loaded: boolean = false;
 
   selectedProject!: ProjectModel | null;
@@ -34,8 +35,37 @@ export class ListProjectsComponent implements OnInit {
     this.getProjects();
   }
 
+  openEdit() {
+    if (
+      this.selectedProject!.name?.trim() &&
+      this.selectedProject!.description?.trim() &&
+      this.selectedProject!.color?.trim()
+    ) {
+      this.editProjectDialog = true;
+      this.submitted = false;
+    }
+  }
+
   editProject(project: ProjectModel): void {
-    console.log(project);
+    if (
+      project.name?.trim() &&
+      project.description?.trim() &&
+      project.color?.trim()
+    ) {
+      this.projectService.editProject(project).subscribe((ret: ReturnModel) => {
+        if (ret.status === 'Success') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Project Edited',
+            life: 3000,
+          });
+          this.selectedProject = null;
+          this.editProjectDialog = false;
+          this.getProjects();
+        }
+      });
+    }
   }
 
   getProjects() {
@@ -81,6 +111,7 @@ export class ListProjectsComponent implements OnInit {
 
   hideDialog() {
     this.newProjectDialog = false;
+    this.editProjectDialog = false;
     this.submitted = false;
   }
 

@@ -42,6 +42,12 @@ export class ProjectService {
       .pipe(retry(2), catchError(this.handleError));
   }
 
+  editProject(project: ProjectModel): Observable<ReturnModel> {
+    return this.httpClient
+      .put<ReturnModel>(this.url + project.id, project)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
