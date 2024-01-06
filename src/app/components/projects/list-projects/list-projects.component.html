@@ -81,5 +81,74 @@
     </div>
   </div>
 
+  <p-dialog
+    [(visible)]="newProjectDialog"
+    [style]="{ width: '450px' }"
+    header="New Project"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="color">Color</label>
+        <div>
+          <p-colorPicker [(ngModel)]="project.color"></p-colorPicker>
+          <div>
+            <small class="p-error" *ngIf="submitted && !project.color"
+              >Color is required.</small
+            >
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="project.name"
+          required
+          autofocus
+        />
+        <small class="p-error" *ngIf="submitted && !project.name"
+          >Name is required.</small
+        >
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="project.description"
+          required
+          rows="3"
+          cols="20"
+        ></textarea>
+        <small class="p-error" *ngIf="submitted && !project.description"
+          >Description is required.</small
+        >
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="createProject()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
   <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 </div>

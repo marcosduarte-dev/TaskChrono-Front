@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectModel } from '../../../models/project.model';
+import { ReturnModel } from '../../../models/return.model';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { ProjectService } from '../../../shared/services/project.service';
@@ -17,9 +18,11 @@ export class ListProjectsComponent implements OnInit {
   list: ProjectModel[] = [];
 
   submitted: boolean = false;
+  newProjectDialog: boolean = false;
   loaded: boolean = false;
 
   selectedProject!: ProjectModel | null;
+  project!: ProjectModel;
 
   constructor(
     private projectService: ProjectService,
@@ -43,7 +46,45 @@ export class ListProjectsComponent implements OnInit {
     });
   }
 
-  openNew() {}
+  openNew() {
+    this.project = {} as ProjectModel;
+    this.submitted = false;
+    this.newProjectDialog = true;
+  }
+
+  createProject() {
+    console.table(this.project);
+    this.project.user_id = '1';
+    this.submitted = true;
+    if (
+      this.project.name?.trim() &&
+      this.project.description?.trim() &&
+      this.project.color?.trim()
+    ) {
+      console.log('Create project');
+      this.projectService
+        .createProject(this.project)
+        .subscribe((ret: ReturnModel) => {
+          if (ret.status === 'Success') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Project Created',
+              life: 3000,
+            });
+
+            this.newProjectDialog = false;
+            this.project = {} as ProjectModel;
+            this.getProjects();
+          }
+        });
+    }
+  }
+
+  hideDialog() {
+    this.newProjectDialog = false;
+    this.submitted = false;
+  }
 
   deleteSelectedProject() {
     this.confirmationService.confirm({
