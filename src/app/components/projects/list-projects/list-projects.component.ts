@@ -66,7 +66,6 @@ export class ListProjectsComponent implements OnInit {
   }
 
   createProject() {
-    console.table(this.project);
     this.project.user_id = '1';
     this.submitted = true;
     if (
@@ -74,9 +73,8 @@ export class ListProjectsComponent implements OnInit {
       this.project.description?.trim() &&
       this.project.color?.trim()
     ) {
-      this.projectService
-        .createProject(this.project)
-        .subscribe((ret: ReturnModel) => {
+      this.projectService.createProject(this.project).subscribe(
+        (ret: ReturnModel) => {
           if (ret.status === 'Success') {
             this.messageService.add({
               severity: 'success',
@@ -89,7 +87,23 @@ export class ListProjectsComponent implements OnInit {
             this.project = {} as ProjectModel;
             this.getProjects();
           }
-        });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'danger',
+            summary: 'Error',
+            detail: error.message,
+            life: 3000,
+          });
+        }
+      );
+    } else {
+      this.messageService.add({
+        severity: 'danger',
+        summary: 'Error',
+        detail: 'Blank fields',
+        life: 3000,
+      });
     }
   }
 
@@ -99,19 +113,29 @@ export class ListProjectsComponent implements OnInit {
       project.description?.trim() &&
       project.color?.trim()
     ) {
-      this.projectService.editProject(project).subscribe((ret: ReturnModel) => {
-        if (ret.status === 'Success') {
+      this.projectService.editProject(project).subscribe(
+        (ret: ReturnModel) => {
+          if (ret.status === 'Success') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Project Edited',
+              life: 3000,
+            });
+            this.selectedProject = null;
+            this.editProjectDialog = false;
+            this.getProjects();
+          }
+        },
+        (error) => {
           this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Project Edited',
+            severity: 'danger',
+            summary: 'Error',
+            detail: error.message,
             life: 3000,
           });
-          this.selectedProject = null;
-          this.editProjectDialog = false;
-          this.getProjects();
         }
-      });
+      );
     }
   }
 
@@ -121,9 +145,8 @@ export class ListProjectsComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.projectService
-          .deleteProject(this.selectedProject!.id)
-          .subscribe((ret: ReturnModel) => {
+        this.projectService.deleteProject(this.selectedProject!.id).subscribe(
+          (ret: ReturnModel) => {
             if (ret.status === 'Success') {
               this.messageService.add({
                 severity: 'success',
@@ -134,7 +157,16 @@ export class ListProjectsComponent implements OnInit {
               this.selectedProject = null;
               this.getProjects();
             }
-          });
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'danger',
+              summary: 'Error',
+              detail: error.message,
+              life: 3000,
+            });
+          }
+        );
       },
     });
   }
