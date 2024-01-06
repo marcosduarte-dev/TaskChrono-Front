@@ -17,10 +17,15 @@ export class TemplateComponent {
   constructor(private router: Router) {}
 
   navigate(destination: string) {
-    console.log(destination);
     switch (destination) {
       case 'projects':
         this.router.navigate(['/projects']);
+        break;
+      case 'tasks':
+        this.router.navigate(['/tasks']);
+        break;
+      case 'home':
+        this.router.navigate(['/home']);
         break;
 
       default:
