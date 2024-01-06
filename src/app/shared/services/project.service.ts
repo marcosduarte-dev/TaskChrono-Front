@@ -36,6 +36,12 @@ export class ProjectService {
       .pipe(retry(2), catchError(this.handleError));
   }
 
+  deleteProject(id: string): Observable<ReturnModel> {
+    return this.httpClient
+      .delete<ReturnModel>(this.url + id)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

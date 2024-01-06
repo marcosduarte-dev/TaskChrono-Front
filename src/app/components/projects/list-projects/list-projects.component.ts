@@ -92,14 +92,20 @@ export class ListProjectsComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // Delete the project
-        this.selectedProject = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Project Deleted',
-          life: 3000,
-        });
+        this.projectService
+          .deleteProject(this.selectedProject!.id)
+          .subscribe((ret: ReturnModel) => {
+            if (ret.status === 'Success') {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Project Deleted',
+                life: 3000,
+              });
+              this.selectedProject = null;
+              this.getProjects();
+            }
+          });
       },
     });
   }
