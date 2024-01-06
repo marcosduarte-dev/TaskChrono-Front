@@ -46,26 +46,16 @@ export class ListProjectsComponent implements OnInit {
     }
   }
 
-  editProject(project: ProjectModel): void {
-    if (
-      project.name?.trim() &&
-      project.description?.trim() &&
-      project.color?.trim()
-    ) {
-      this.projectService.editProject(project).subscribe((ret: ReturnModel) => {
-        if (ret.status === 'Success') {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Project Edited',
-            life: 3000,
-          });
-          this.selectedProject = null;
-          this.editProjectDialog = false;
-          this.getProjects();
-        }
-      });
-    }
+  openNew() {
+    this.project = {} as ProjectModel;
+    this.submitted = false;
+    this.newProjectDialog = true;
+  }
+
+  hideDialog() {
+    this.newProjectDialog = false;
+    this.editProjectDialog = false;
+    this.submitted = false;
   }
 
   getProjects() {
@@ -73,12 +63,6 @@ export class ListProjectsComponent implements OnInit {
       this.list = projects;
       this.loaded = true;
     });
-  }
-
-  openNew() {
-    this.project = {} as ProjectModel;
-    this.submitted = false;
-    this.newProjectDialog = true;
   }
 
   createProject() {
@@ -109,10 +93,26 @@ export class ListProjectsComponent implements OnInit {
     }
   }
 
-  hideDialog() {
-    this.newProjectDialog = false;
-    this.editProjectDialog = false;
-    this.submitted = false;
+  editProject(project: ProjectModel): void {
+    if (
+      project.name?.trim() &&
+      project.description?.trim() &&
+      project.color?.trim()
+    ) {
+      this.projectService.editProject(project).subscribe((ret: ReturnModel) => {
+        if (ret.status === 'Success') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Project Edited',
+            life: 3000,
+          });
+          this.selectedProject = null;
+          this.editProjectDialog = false;
+          this.getProjects();
+        }
+      });
+    }
   }
 
   deleteSelectedProject() {
