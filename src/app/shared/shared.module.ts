@@ -12,10 +12,12 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
+import { TaskService } from './services/task.service';
 
 @NgModule({
   imports: [
@@ -32,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     InputTextModule,
     InputTextareaModule,
     ColorPickerModule,
+    DropdownModule,
   ],
   declarations: [],
   exports: [
@@ -47,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     InputTextModule,
     InputTextareaModule,
     ColorPickerModule,
+    DropdownModule,
   ],
-  providers: [ProjectService, MessageService, ConfirmationService],
+  providers: [ProjectService, TaskService, MessageService, ConfirmationService],
 })
 export class SharedModule {}

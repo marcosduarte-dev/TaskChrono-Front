@@ -1,0 +1,245 @@
+<p-toast></p-toast>
+<div>
+  <div
+    *ngIf="!loaded"
+    class="flex align-items-center justify-content-center align-content-center"
+    style="height: 100%; min-height: 92vh"
+  >
+    <span class="loader"></span>
+  </div>
+  <div *ngIf="loaded" class="p-4">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <div class="p-toolbar-group-start">
+        <p-button
+          styleClass="mr-2"
+          pRipple
+          label="New"
+          severity="success"
+          (click)="openNew()"
+          icon="pi pi-plus"
+        ></p-button>
+        <p-button
+          styleClass="mr-2"
+          pRipple
+          label="Edit"
+          severity="info"
+          (click)="openEdit()"
+          [disabled]="!selectedTask"
+          icon="pi pi-pencil"
+        ></p-button>
+        <p-button
+          pRipple
+          label="Delete"
+          severity="danger"
+          (click)="deleteSelectedTask()"
+          [disabled]="!selectedTask"
+          icon="pi pi-trash"
+        ></p-button>
+      </div>
+    </p-toolbar>
+
+    <div class="mt-1">
+      <p-table
+        [value]="list"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        selectionMode="single"
+        [(selection)]="selectedTask"
+        (onRowSelect)="onRowSelect($event)"
+        (onRowUnselect)="onRowUnselect($event)"
+        dataKey="id"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Color</th>
+            <th scope="col">Project</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task>
+          <tr [pSelectableRow]="task">
+            <td>{{ task.id }}</td>
+            <td>{{ task.name }}</td>
+            <td>{{ task.description }}</td>
+            <td>
+              <p-tag
+                icon="pi pi-palette"
+                [style]="{
+                  background: task.color,
+                  color: getTextColor(task.color)
+                }"
+                [value]="task.color"
+              ></p-tag>
+            </td>
+            <td>
+              <p-tag
+                icon="pi pi-palette"
+                [style]="{
+                  background: task.project.color,
+                  color: getTextColor(task.project.color)
+                }"
+                [value]="task.project.name"
+              ></p-tag>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <p-dialog
+    [(visible)]="newTaskDialog"
+    [style]="{ width: '450px' }"
+    header="New Project"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="color">Color</label>
+        <div>
+          <p-colorPicker [(ngModel)]="task.color"></p-colorPicker>
+          <div>
+            <small class="p-error" *ngIf="submitted && !task.color"
+              >Color is required.</small
+            >
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="description">Project</label>
+        <p-dropdown
+          [options]="projects"
+          [(ngModel)]="selectedProject"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a Project"
+        ></p-dropdown>
+
+        <small class="p-error" *ngIf="submitted && !task.project_id"
+          >Project is required.</small
+        >
+      </div>
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="task.name"
+          required
+          autofocus
+        />
+        <small class="p-error" *ngIf="submitted && !task.name"
+          >Name is required.</small
+        >
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="task.description"
+          required
+          rows="3"
+          cols="20"
+        ></textarea>
+        <small class="p-error" *ngIf="submitted && !task.description"
+          >Description is required.</small
+        >
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="createTask()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog
+    [(visible)]="editTaskDialog"
+    [style]="{ width: '450px' }"
+    header="Edit Task"
+    [modal]="true"
+    styleClass="p-fluid"
+    *ngIf="selectedTask"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="color">Color</label>
+        <div>
+          <p-colorPicker [(ngModel)]="selectedTask!.color"></p-colorPicker>
+          <div>
+            <small class="p-error" *ngIf="submitted && !task.color"
+              >Color is required.</small
+            >
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="selectedTask!.name"
+          required
+          autofocus
+        />
+        <small class="p-error" *ngIf="submitted && !task.name"
+          >Name is required.</small
+        >
+      </div>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="selectedTask!.description"
+          required
+          rows="3"
+          cols="20"
+        ></textarea>
+        <small class="p-error" *ngIf="submitted && !task.description"
+          >Description is required.</small
+        >
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="editTask(selectedTask!)"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

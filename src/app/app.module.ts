@@ -4,6 +4,7 @@ import { ComponentsModule } from './components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectService } from './shared/services/project.service';
+import { TaskService } from './shared/services/task.service';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,6 @@ import { ProjectService } from './shared/services/project.service';
     HttpClientModule,
   ],
   bootstrap: [],
-  providers: [ProjectService],
+  providers: [ProjectService, TaskService],
 })
 export class AppModule {}
