@@ -7,6 +7,7 @@ import { TaskService } from '../../shared/services/task.service';
 import { ReturnModel } from '../../models/return.model';
 import { ProjectService } from '../../shared/services/project.service';
 import { ProjectModel } from '../../models/project.model';
+import { getTextColor } from '../../shared/util';
 
 @Component({
   selector: 'app-tasks',
@@ -82,10 +83,10 @@ export class TasksComponent implements OnInit {
     this.task.project_id = this.selectedProject!.id;
     this.submitted = true;
     if (
-      this.task!.name?.trim() &&
-      this.task!.description?.trim() &&
-      this.task!.color?.trim() &&
-      this.task!.project_id?.trim()
+      this.task.name?.trim() &&
+      this.task.description?.trim() &&
+      this.task.color?.trim() &&
+      this.task.project_id?.trim()
     ) {
       this.taskService.createTask(this.task).subscribe(
         (ret: ReturnModel) => {
@@ -123,10 +124,10 @@ export class TasksComponent implements OnInit {
 
   editTask(task: TaskModel): void {
     if (
-      task!.name?.trim() &&
-      task!.description?.trim() &&
-      task!.color?.trim() &&
-      task!.project_id?.trim()
+      task.name?.trim() &&
+      task.description?.trim() &&
+      task.color?.trim() &&
+      task.project_id?.trim()
     ) {
       this.taskService.editTask(task).subscribe(
         (ret: ReturnModel) => {
@@ -186,6 +187,10 @@ export class TasksComponent implements OnInit {
     });
   }
 
+  getTextColor(backgroundColor: string): string {
+    return getTextColor(backgroundColor);
+  }
+
   onRowSelect(event: any) {
     this.selectedTask = event.data;
     console.log(event.data);
@@ -193,24 +198,5 @@ export class TasksComponent implements OnInit {
 
   onRowUnselect(event: any) {
     this.selectedTask = null;
-  }
-
-  getTextColor(backgroundColor: string): string {
-    const rgb = this.hexToRgb(backgroundColor);
-
-    const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
-
-    return brightness > 128 ? 'black' : 'white';
-  }
-
-  hexToRgb(hex: string): { r: number; g: number; b: number } {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
-      : { r: 0, g: 0, b: 0 };
   }
 }
