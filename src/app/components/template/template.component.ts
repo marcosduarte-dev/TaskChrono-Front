@@ -24,8 +24,8 @@ export class TemplateComponent {
       case 'tasks':
         this.router.navigate(['/tasks']);
         break;
-      case 'home':
-        this.router.navigate(['/home']);
+      case 'timer':
+        this.router.navigate(['/timer']);
         break;
 
       default:
