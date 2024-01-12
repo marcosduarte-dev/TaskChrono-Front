@@ -1,3 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
+
 export function getTextColor(backgroundColor: string): string {
   const rgb = hexToRgb(backgroundColor);
 
@@ -15,4 +18,15 @@ export function hexToRgb(hex: string): { r: number; g: number; b: number } {
         b: parseInt(result[3], 16),
       }
     : { r: 0, g: 0, b: 0 };
+}
+
+export function handleError(error: HttpErrorResponse) {
+  let errorMessage = '';
+  if (error.error instanceof ErrorEvent) {
+    errorMessage = error.error.message;
+  } else {
+    errorMessage = `Erro Code: ${error.status}, ` + `mensage: ${error.message}`;
+  }
+  console.log(errorMessage);
+  return throwError(errorMessage);
 }
