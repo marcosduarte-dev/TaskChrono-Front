@@ -1,1 +1,25 @@
-<p>timer works!</p>
+<div class="mt-7">
+  <div class="flex flex-wrap align-items-center justify-content-center">
+    <p class="text-10xl">{{ display }}</p>
+  </div>
+
+  <div class="flex flex-wrap align-items-center justify-content-center mt-7">
+    <p-button
+      *ngIf="!isPaused"
+      styleClass="mr-2"
+      pRipple
+      label="Start"
+      severity="success"
+      (click)="startTimer()"
+      icon="pi pi-play"
+    ></p-button>
+    <p-button
+      styleClass="mr-2"
+      pRipple
+      label="Stop"
+      severity="danger"
+      (click)="stopTimer()"
+      icon="pi pi-stop"
+    ></p-button>
+  </div>
+</div>
