@@ -22,4 +22,36 @@
       icon="pi pi-stop"
     ></p-button>
   </div>
+
+  <div class="mt-4">
+    <p-treeTable
+      [value]="treeNode"
+      [scrollable]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Task Name</th>
+          <th>Project Name</th>
+          <th>Total Duration</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Record Type</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr [ttRow]="rowNode">
+          <td>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            {{ rowData.taskName }}
+          </td>
+          <td>{{ rowData.projectName }}</td>
+          <td>{{ rowData.totalDuration | durationTransform }}</td>
+          <td>{{ rowData.startTime | dateTransform }}</td>
+          <td>{{ rowData.endTime | dateTransform }}</td>
+          <td>{{ rowData.record_type }}</td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
 </div>

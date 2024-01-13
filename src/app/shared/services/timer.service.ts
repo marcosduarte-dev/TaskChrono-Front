@@ -14,7 +14,7 @@ export class TimerService {
 
   getByDate(date: string): Observable<TimerModel[]> {
     return this.httpClient
-      .get<TimerModel[]>(`${this.url}/date/${date}`)
+      .get<TimerModel[]>(`${this.url}date/${date}`)
       .pipe(retry(2), catchError(handleError));
   }
 }

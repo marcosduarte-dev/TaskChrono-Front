@@ -13,14 +13,21 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DropdownModule } from 'primeng/dropdown';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from './services/task.service';
+import {
+  DateTransformPipe,
+  DurationTransformPipe,
+} from './pipes/date-transform.pipe';
 
 @NgModule({
   imports: [
+    DateTransformPipe,
+    DurationTransformPipe,
     HttpClientModule,
     FormsModule,
     SidebarModule,
@@ -35,9 +42,12 @@ import { TaskService } from './services/task.service';
     InputTextareaModule,
     ColorPickerModule,
     DropdownModule,
+    TreeTableModule,
   ],
   declarations: [],
   exports: [
+    DateTransformPipe,
+    DurationTransformPipe,
     FormsModule,
     SidebarModule,
     ButtonModule,
@@ -51,6 +61,7 @@ import { TaskService } from './services/task.service';
     InputTextareaModule,
     ColorPickerModule,
     DropdownModule,
+    TreeTableModule,
   ],
   providers: [ProjectService, TaskService, MessageService, ConfirmationService],
 })
