@@ -43,9 +43,23 @@
         <tr [ttRow]="rowNode">
           <td>
             <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-            {{ rowData.taskName }}
+            <p-tag
+              [style]="{
+                background: rowData.taskColor,
+                color: getTextColor(rowData.taskColor)
+              }"
+              [value]="rowData.taskName"
+            ></p-tag>
           </td>
-          <td>{{ rowData.projectName }}</td>
+          <td>
+            <p-tag
+              [style]="{
+                background: rowData.projectColor,
+                color: getTextColor(rowData.projectColor)
+              }"
+              [value]="rowData.projectName"
+            ></p-tag>
+          </td>
           <td>{{ rowData.totalDuration | durationTransform }}</td>
           <td>{{ rowData.startTime | dateTransform }}</td>
           <td>{{ rowData.endTime | dateTransform }}</td>

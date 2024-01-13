@@ -9,6 +9,7 @@ import { TreeNode } from 'primeng/api';
 import { TaskModel } from '../../models/task.model';
 import { NodeModel } from '../../models/node.model';
 import { DateTransformPipe } from '../../shared/pipes/date-transform.pipe';
+import { getTextColor } from '../../shared/util';
 
 @Component({
   selector: 'app-timer',
@@ -167,7 +168,9 @@ export class TimerComponent implements OnInit {
 
       this.treeNode.push(obj);
     });
+  }
 
-    console.log(this.treeNode);
+  getTextColor(backgroundColor: string): string {
+    return getTextColor(backgroundColor);
   }
 }
