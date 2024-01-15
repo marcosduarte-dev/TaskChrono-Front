@@ -31,7 +31,6 @@ export class TimerComponent implements OnInit {
   counter: number;
 
   loaded: boolean;
-  isPaused: boolean;
   canStop: boolean;
   canStart: boolean;
   canSelectProject: boolean;
@@ -52,23 +51,18 @@ export class TimerComponent implements OnInit {
 
   timer!: TimerModel | null;
 
-  timersArray: [[]];
-
   constructor(
     private timerService: TimerService,
     private projectService: ProjectService,
     private taskService: TaskService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private messageService: MessageService
   ) {
     this.counter = 0;
-    this.isPaused = false;
     this.display = '00:00:00';
     this.date = this.getFormattedDate(new Date());
     this.loaded = false;
     this.taskList = [];
     this.treeData = [];
-    this.timersArray = [[]];
     this.canStart = false;
     this.canStop = false;
     this.canSelectProject = true;
@@ -83,10 +77,8 @@ export class TimerComponent implements OnInit {
   startTimer() {
     const source = timer(1000, 1000);
     this.subscription = source.subscribe((val) => {
-      if (!this.isPaused) {
-        this.counter = val;
-        this.display = this.transform(this.counter);
-      }
+      this.counter = val;
+      this.display = this.transform(this.counter);
     });
     this.canStart = false;
     this.canStop = true;
@@ -258,17 +250,7 @@ export class TimerComponent implements OnInit {
 
   createTimer(timer: TimerModel) {
     this.timerService.createTimer(timer).subscribe(
-      (ret: ReturnModel) => {
-        if (ret.status === 'Success') {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Timer Created',
-            life: 3000,
-          });
-          this.getTimerByDate();
-        }
-      },
+      (ret: ReturnModel) => {},
       (error) => {
         this.messageService.add({
           severity: 'danger',
