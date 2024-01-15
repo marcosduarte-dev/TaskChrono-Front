@@ -23,6 +23,8 @@ export class TimerComponent implements OnInit {
   counter: number;
   isPaused: boolean;
   display: string;
+  canStop: boolean;
+  canStart: boolean;
 
   date: string;
   loaded: boolean;
@@ -48,6 +50,8 @@ export class TimerComponent implements OnInit {
     this.taskList = [];
     this.treeData = [];
     this.timersArray = [[]];
+    this.canStart = true;
+    this.canStop = false;
   }
 
   ngOnInit(): void {
@@ -70,11 +74,15 @@ export class TimerComponent implements OnInit {
         this.display = this.transform(this.counter);
       }
     });
+    this.canStart = false;
+    this.canStop = true;
   }
 
   stopTimer() {
     console.log(this.counter);
     this.subscription.unsubscribe();
+    this.canStart = true;
+    this.canStop = false;
   }
 
   pauseTimer() {

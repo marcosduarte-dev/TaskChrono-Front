@@ -5,6 +5,7 @@
 
   <div class="flex flex-wrap align-items-center justify-content-center mt-7">
     <p-button
+      [disabled]="!canStart"
       *ngIf="!isPaused"
       styleClass="mr-2"
       pRipple
@@ -14,6 +15,7 @@
       icon="pi pi-play"
     ></p-button>
     <p-button
+      [disabled]="!canStop"
       styleClass="mr-2"
       pRipple
       label="Stop"
