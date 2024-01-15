@@ -8,8 +8,12 @@ import { TimerModel } from '../../models/timer.model';
 import { TreeNode } from 'primeng/api';
 import { TaskModel } from '../../models/task.model';
 import { NodeModel } from '../../models/node.model';
-import { DateTransformPipe } from '../../shared/pipes/date-transform.pipe';
 import { getTextColor } from '../../shared/util';
+import { TimerRecordType } from '../../shared/enums/timer-record-type';
+import { ProjectModel } from '../../models/project.model';
+import { ProjectService } from '../../shared/services/project.service';
+import { TaskService } from '../../shared/services/task.service';
+import { ReturnModel } from '../../models/return.model';
 
 @Component({
   selector: 'app-timer',
@@ -20,49 +24,60 @@ import { getTextColor } from '../../shared/util';
 })
 export class TimerComponent implements OnInit {
   subscription!: Subscription;
-  counter: number;
-  isPaused: boolean;
-  display: string;
-  canStop: boolean;
-  canStart: boolean;
 
   date: string;
+  display: string;
+
+  counter: number;
+
   loaded: boolean;
+  isPaused: boolean;
+  canStop: boolean;
+  canStart: boolean;
+  canSelectProject: boolean;
+  canSelectTask: boolean;
 
   list!: TreeNode[];
   nodeAux!: TreeNode;
+  treeNode!: TreeNode[];
+  treeData: NodeModel[];
 
   taskList: TaskModel[];
+
+  projects: ProjectModel[] = [];
+  selectedProject!: ProjectModel | null;
+
+  tasks: TaskModel[] = [];
+  selectedTask!: TaskModel | null;
+
+  timer!: TimerModel | null;
+
   timersArray: [[]];
-  treeData: NodeModel[];
-  treeNode!: TreeNode[];
 
   constructor(
     private timerService: TimerService,
+    private projectService: ProjectService,
+    private taskService: TaskService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
     this.counter = 0;
     this.isPaused = false;
     this.display = '00:00:00';
-    this.date = '2022-01-01';
+    this.date = this.getFormattedDate(new Date());
     this.loaded = false;
     this.taskList = [];
     this.treeData = [];
     this.timersArray = [[]];
-    this.canStart = true;
+    this.canStart = false;
     this.canStop = false;
+    this.canSelectProject = true;
+    this.canSelectTask = false;
   }
 
   ngOnInit(): void {
     this.getTimerByDate();
-  }
-
-  getTimerByDate() {
-    this.timerService.getByDate(this.date).subscribe((timers: TimerModel[]) => {
-      this.createNodesToTimers(timers);
-      this.loaded = true;
-    });
+    this.getProjects();
   }
 
   startTimer() {
@@ -70,12 +85,23 @@ export class TimerComponent implements OnInit {
     this.subscription = source.subscribe((val) => {
       if (!this.isPaused) {
         this.counter = val;
-        console.log(val);
         this.display = this.transform(this.counter);
       }
     });
     this.canStart = false;
     this.canStop = true;
+    this.canSelectProject = false;
+    this.canSelectTask = false;
+
+    const now = new Date();
+
+    var aux = {} as TimerModel;
+    aux.start_time = now;
+    aux.record_type = TimerRecordType.Start;
+    aux.total_duration = 0;
+    aux.task_id = this.selectedTask?.id!;
+
+    this.createTimer(aux);
   }
 
   stopTimer() {
@@ -83,14 +109,34 @@ export class TimerComponent implements OnInit {
     this.subscription.unsubscribe();
     this.canStart = true;
     this.canStop = false;
+    this.canSelectProject = true;
+    this.canSelectTask = true;
+
+    const now = new Date();
+
+    var aux = {} as TimerModel;
+
+    aux.end_time = now;
+    aux.record_type = TimerRecordType.Stop;
+    aux.total_duration = this.counter;
+    aux.task_id = this.selectedTask?.id!;
+
+    this.createTimer(aux);
   }
 
-  pauseTimer() {
-    this.isPaused = true;
+  onChangeProject() {
+    if (this.selectedProject == null) {
+      this.canSelectTask = false;
+      this.tasks = [];
+    } else {
+      this.getTasks();
+      this.canSelectTask = true;
+    }
+    console.log(this.selectedProject);
   }
 
-  resumeTimer() {
-    this.isPaused = false;
+  onChangeTask() {
+    this.canStart = this.selectedTask != null;
   }
 
   transform(value: number): string {
@@ -103,6 +149,16 @@ export class TimerComponent implements OnInit {
     const formattedSeconds = seconds.toString().padStart(2, '0');
 
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+
+  getFormattedDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(formattedDate);
+    return formattedDate;
   }
 
   createNodesToTimers(timers: TimerModel[]) {
@@ -176,6 +232,52 @@ export class TimerComponent implements OnInit {
 
       this.treeNode.push(obj);
     });
+  }
+
+  getTimerByDate() {
+    this.timerService.getByDate(this.date).subscribe((timers: TimerModel[]) => {
+      this.createNodesToTimers(timers);
+      this.loaded = true;
+    });
+  }
+
+  getProjects() {
+    this.projectService.getProjects().subscribe((projects: ProjectModel[]) => {
+      this.projects = projects;
+      this.loaded = true;
+    });
+  }
+
+  getTasks() {
+    this.taskService
+      .getTasksByProjectID(this.selectedProject?.id!)
+      .subscribe((tasks: TaskModel[]) => {
+        this.tasks = tasks;
+      });
+  }
+
+  createTimer(timer: TimerModel) {
+    this.timerService.createTimer(timer).subscribe(
+      (ret: ReturnModel) => {
+        if (ret.status === 'Success') {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: 'Timer Created',
+            life: 3000,
+          });
+          this.getTimerByDate();
+        }
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'danger',
+          summary: 'Error',
+          detail: error.message,
+          life: 3000,
+        });
+      }
+    );
   }
 
   getTextColor(backgroundColor: string): string {

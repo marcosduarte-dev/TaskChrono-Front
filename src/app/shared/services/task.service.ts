@@ -23,6 +23,12 @@ export class TaskService {
       .pipe(retry(2), catchError(handleError));
   }
 
+  getTasksByProjectID(projectID: string): Observable<TaskModel[]> {
+    return this.httpClient
+      .get<TaskModel[]>(`${this.url}project/${projectID}`)
+      .pipe(retry(2), catchError(handleError));
+  }
+
   createTask(task: TaskModel): Observable<ReturnModel> {
     return this.httpClient
       .post<ReturnModel>(this.url, task)
