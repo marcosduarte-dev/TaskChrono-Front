@@ -24,4 +24,10 @@ export class TimerService {
       .post<ReturnModel>(this.url, timer)
       .pipe(retry(2), catchError(handleError));
   }
+
+  deleteTimer(id: string): Observable<ReturnModel> {
+    return this.httpClient
+      .delete<ReturnModel>(this.url + id)
+      .pipe(retry(2), catchError(handleError));
+  }
 }

@@ -27,6 +27,9 @@ export class TemplateComponent {
       case 'timer':
         this.router.navigate(['/timer']);
         break;
+      case 'timersheet':
+        this.router.navigate(['/timersheet']);
+        break;
 
       default:
         break;

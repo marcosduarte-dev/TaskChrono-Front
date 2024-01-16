@@ -23,6 +23,7 @@ import {
   DateTransformPipe,
   DurationTransformPipe,
 } from './pipes/date-transform.pipe';
+import { TimerService } from './services/timer.service';
 
 @NgModule({
   imports: [
@@ -63,6 +64,12 @@ import {
     DropdownModule,
     TreeTableModule,
   ],
-  providers: [ProjectService, TaskService, MessageService, ConfirmationService],
+  providers: [
+    TimerService,
+    ProjectService,
+    TaskService,
+    MessageService,
+    ConfirmationService,
+  ],
 })
 export class SharedModule {}
