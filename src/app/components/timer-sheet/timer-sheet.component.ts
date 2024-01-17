@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  ConfirmationService,
-  MessageService,
-  TreeNode,
-  TreeTableNode,
-} from 'primeng/api';
+import { ConfirmationService, MessageService, TreeNode } from 'primeng/api';
 import { NodeModel } from '../../models/node.model';
 import {
   createNodesToTimers,

@@ -9,9 +9,9 @@ export class DateTransformPipe implements PipeTransform {
     if (value === '0000-12-31T21:00:00-03:00') {
       return '';
     }
-    const date = value.substr(0, 10);
+    const date = value.substring(0, 10);
 
-    const time = value.substr(11, 5);
+    const time = value.substring(11, 5);
 
     return `${date} ${time}`;
   }

@@ -3,9 +3,8 @@ import { Subscription, timer } from 'rxjs';
 import { SharedModule } from '../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { TimerService } from '../../shared/services/timer.service';
-import { MessageService } from 'primeng/api';
+import { MessageService, TreeNode } from 'primeng/api';
 import { TimerModel } from '../../models/timer.model';
-import { TreeNode } from 'primeng/api';
 import { TaskModel } from '../../models/task.model';
 import { NodeModel } from '../../models/node.model';
 import {
@@ -86,7 +85,7 @@ export class TimerComponent implements OnInit {
 
     const now = new Date();
 
-    var aux = {} as TimerModel;
+    let aux = {} as TimerModel;
     aux.start_time = now;
     aux.record_type = TimerRecordType.Start;
     aux.total_duration = 0;
@@ -105,7 +104,7 @@ export class TimerComponent implements OnInit {
 
     const now = new Date();
 
-    var aux = {} as TimerModel;
+    let aux = {} as TimerModel;
 
     aux.end_time = now;
     aux.record_type = TimerRecordType.Stop;
@@ -131,10 +130,10 @@ export class TimerComponent implements OnInit {
   }
 
   transform(value: number): string {
-    var sec_num = value;
-    var hours = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - hours * 3600) / 60);
-    var seconds = sec_num - hours * 3600 - minutes * 60;
+    let sec_num = value;
+    let hours = Math.floor(sec_num / 3600);
+    let minutes = Math.floor((sec_num - hours * 3600) / 60);
+    let seconds = sec_num - hours * 3600 - minutes * 60;
     const formattedHours = hours.toString().padStart(2, '0');
     const formattedMinutes = minutes.toString().padStart(2, '0');
     const formattedSeconds = seconds.toString().padStart(2, '0');
