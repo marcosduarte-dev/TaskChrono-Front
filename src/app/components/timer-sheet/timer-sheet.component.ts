@@ -26,6 +26,7 @@ import { ReturnModel } from '../../models/return.model';
 })
 export class TimerSheetComponent implements OnInit {
   date: string;
+  dateInput: Date;
 
   loaded: boolean;
 
@@ -43,6 +44,7 @@ export class TimerSheetComponent implements OnInit {
     this.date = getFormattedDateToTimerURL(new Date());
     this.treeData = [];
     this.loaded = false;
+    this.dateInput = new Date();
   }
 
   ngOnInit(): void {
@@ -83,6 +85,12 @@ export class TimerSheetComponent implements OnInit {
         });
       },
     });
+  }
+
+  onChangeDate() {
+    console.log('onChangeDate');
+    this.date = getFormattedDateToTimerURL(this.dateInput);
+    this.getTimerByDate();
   }
 
   getTimerByDate() {

@@ -24,6 +24,7 @@ import {
   DurationTransformPipe,
 } from './pipes/date-transform.pipe';
 import { TimerService } from './services/timer.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { TimerService } from './services/timer.service';
     ColorPickerModule,
     DropdownModule,
     TreeTableModule,
+    CalendarModule,
   ],
   declarations: [],
   exports: [
@@ -63,6 +65,7 @@ import { TimerService } from './services/timer.service';
     ColorPickerModule,
     DropdownModule,
     TreeTableModule,
+    CalendarModule,
   ],
   providers: [
     TimerService,

@@ -7,7 +7,7 @@
   <span class="loader"></span>
 </div>
 <div *ngIf="loaded" class="p-4">
-  <div class="mt-4">
+  <div>
     <p-toolbar styleClass="mb-4 gap-2">
       <div class="p-toolbar-group-start">
         <p-button
@@ -18,6 +18,14 @@
           [disabled]="selectedNodes == null || selectedNodes.length == 0"
           icon="pi pi-trash"
         ></p-button>
+      </div>
+      <div class="p-toolbar-group-end">
+        <p-calendar
+          [(ngModel)]="dateInput"
+          dateFormat="yy/mm/dd"
+          [showIcon]="true"
+          (onSelect)="onChangeDate()"
+        ></p-calendar>
       </div>
     </p-toolbar>
     <p-treeTable
