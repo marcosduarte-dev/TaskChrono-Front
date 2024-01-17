@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app
 
-RUN npm install --ignore-scripts -g @angular/cli
+RUN npm install -g @angular/cli --ignore-scripts
 
 RUN npm install --ignore-scripts
 
