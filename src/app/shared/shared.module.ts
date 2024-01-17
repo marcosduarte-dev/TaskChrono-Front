@@ -25,6 +25,7 @@ import {
 } from './pipes/date-transform.pipe';
 import { TimerService } from './services/timer.service';
 import { CalendarModule } from 'primeng/calendar';
+import { TitleService } from './services/title.service';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { CalendarModule } from 'primeng/calendar';
     TaskService,
     MessageService,
     ConfirmationService,
+    TitleService,
   ],
 })
 export class SharedModule {}

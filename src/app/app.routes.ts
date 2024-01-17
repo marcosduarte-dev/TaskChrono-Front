@@ -6,6 +6,7 @@ import { TimerComponent } from './components/timer/timer.component';
 import { TimerSheetComponent } from './components/timer-sheet/timer-sheet.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/timer', pathMatch: 'full' },
   { path: 'projects', component: ListProjectsComponent },
   { path: 'tasks', component: TasksComponent },
   { path: 'timer', component: TimerComponent },
