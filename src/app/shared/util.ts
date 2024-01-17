@@ -43,8 +43,8 @@ export function getFormattedDateToTimerURL(date: Date): string {
 }
 
 export function createNodesToTimers(timers: TimerModel[]): TreeNode[] {
-  var treeData = [] as NodeModel[];
-  var treeNode = [] as TreeNode[];
+  let treeData = [] as NodeModel[];
+  let treeNode = [] as TreeNode[];
 
   timers.forEach((timer) => {
     if (!treeData.some((data) => data.task.id === timer.task.id)) {

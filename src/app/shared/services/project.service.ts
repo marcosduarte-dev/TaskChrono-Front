@@ -1,10 +1,6 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable, catchError, retry } from 'rxjs';
 import { ProjectModel } from '../../models/project.model';
 import { ReturnModel } from '../../models/return.model';
 import { handleError } from '../../shared/util';
