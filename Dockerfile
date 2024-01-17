@@ -4,9 +4,9 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app
 
-RUN npm install -g @angular/cli
+RUN npm install --ignore-scripts -g @angular/cli
 
-RUN npm install
+RUN npm install --ignore-scripts
 
 EXPOSE 4200
 
