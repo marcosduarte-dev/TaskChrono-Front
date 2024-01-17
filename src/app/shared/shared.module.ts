@@ -13,14 +13,23 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DropdownModule } from 'primeng/dropdown';
+import { TreeTableModule } from 'primeng/treetable';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from './services/task.service';
+import {
+  DateTransformPipe,
+  DurationTransformPipe,
+} from './pipes/date-transform.pipe';
+import { TimerService } from './services/timer.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
+    DateTransformPipe,
+    DurationTransformPipe,
     HttpClientModule,
     FormsModule,
     SidebarModule,
@@ -35,9 +44,13 @@ import { TaskService } from './services/task.service';
     InputTextareaModule,
     ColorPickerModule,
     DropdownModule,
+    TreeTableModule,
+    CalendarModule,
   ],
   declarations: [],
   exports: [
+    DateTransformPipe,
+    DurationTransformPipe,
     FormsModule,
     SidebarModule,
     ButtonModule,
@@ -51,7 +64,15 @@ import { TaskService } from './services/task.service';
     InputTextareaModule,
     ColorPickerModule,
     DropdownModule,
+    TreeTableModule,
+    CalendarModule,
   ],
-  providers: [ProjectService, TaskService, MessageService, ConfirmationService],
+  providers: [
+    TimerService,
+    ProjectService,
+    TaskService,
+    MessageService,
+    ConfirmationService,
+  ],
 })
 export class SharedModule {}

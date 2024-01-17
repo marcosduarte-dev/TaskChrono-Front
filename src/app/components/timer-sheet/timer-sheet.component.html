@@ -1,0 +1,81 @@
+<p-toast></p-toast>
+<div
+  *ngIf="!loaded"
+  class="flex align-items-center justify-content-center align-content-center"
+  style="height: 100%; min-height: 92vh"
+>
+  <span class="loader"></span>
+</div>
+<div *ngIf="loaded" class="p-4">
+  <div>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <div class="p-toolbar-group-start">
+        <p-button
+          pRipple
+          label="Delete"
+          severity="danger"
+          (click)="deleteSelectedTimers()"
+          [disabled]="selectedNodes == null || selectedNodes.length == 0"
+          icon="pi pi-trash"
+        ></p-button>
+      </div>
+      <div class="p-toolbar-group-end">
+        <p-calendar
+          [(ngModel)]="dateInput"
+          dateFormat="yy/mm/dd"
+          [showIcon]="true"
+          (onSelect)="onChangeDate()"
+        ></p-calendar>
+      </div>
+    </p-toolbar>
+    <p-treeTable
+      [value]="treeNode"
+      [scrollable]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      selectionMode="checkbox"
+      dataKey="id"
+      [(selection)]="selectedNodes"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Task Name</th>
+          <th>Project Name</th>
+          <th>Total Duration</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Record Type</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+          <td>
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
+            <p-tag
+              [style]="{
+                background: rowData.taskColor,
+                color: getTextColor(rowData.taskColor)
+              }"
+              [value]="rowData.taskName"
+            ></p-tag>
+          </td>
+          <td>
+            <p-tag
+              [style]="{
+                background: rowData.projectColor,
+                color: getTextColor(rowData.projectColor)
+              }"
+              [value]="rowData.projectName"
+            ></p-tag>
+          </td>
+          <td>{{ rowData.totalDuration | durationTransform }}</td>
+          <td>{{ rowData.startTime | dateTransform }}</td>
+          <td>{{ rowData.endTime | dateTransform }}</td>
+          <td>{{ rowData.record_type }}</td>
+        </tr>
+      </ng-template>
+    </p-treeTable>
+  </div>
+
+  <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>
