@@ -6,7 +6,11 @@
   }"
 >
   <div>
-    <p-sidebar [(visible)]="sidebarVisible" [modal]="sidebarModal">
+    <p-sidebar
+      [(visible)]="sidebarVisible"
+      [modal]="sidebarModal"
+      [style]="{ 'background-color': '#f4f8ff' }"
+    >
       <ng-template pTemplate="header">
         <img alt="logo" src="../assets/LogoTask1.png" class="logo" />
       </ng-template>
@@ -54,10 +58,32 @@
     </p-sidebar>
   </div>
   <div>
-    <p-button
-      (click)="sidebarVisible = true"
-      icon="pi pi-arrow-right"
-    ></p-button>
+    <p-toolbar
+      [style]="{ 'background-color': '#f4f8ff' }"
+      styleClass="shadow-2"
+    >
+      <ng-template pTemplate="start">
+        <p-button
+          (click)="sidebarVisible = true"
+          icon="pi pi-bars"
+          [text]="true"
+          size="large"
+        ></p-button>
+      </ng-template>
+      <ng-template pTemplate="center">
+        <div class="flex flex-wrap align-items-center gap-3">
+          <span class="font-bold text-color-secondary text-3xl">
+            {{ titleService.getTitle() | async }}
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="end">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold text-color-secondary">Mark Dev</span>
+        </div>
+      </ng-template>
+    </p-toolbar>
+
     <router-outlet></router-outlet>
   </div>
 </div>
