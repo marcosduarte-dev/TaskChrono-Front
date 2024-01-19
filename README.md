@@ -1,27 +1,31 @@
-# TaskChrono
+# TaskChrono - FrontEnd
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
+The TaskChrono is an Angular-based project aimed at providing a system for tracking the time spent on tasks within a specific project. Its main objective is to facilitate time management and provide insights into task duration and project progress.
 
-## Development server
+## 📦 Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The current version of the project includes a comprehensive project and task management system. It provides the ability to create, track, and manage projects and tasks effectively. Additionally, the system allows users to track and measure the time spent on each task accurately. This time tracking feature enables users to monitor their productivity and analyze the time allocation for different tasks. With this functionality, users can gain insights into their work patterns and optimize their time management strategies.
 
-## Code scaffolding
+You can check out a demo video by [clicking here](). 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 📋 Prerequisites
 
-## Build
+To run the system, you need to have a running instance of PostgreSQL and the backend server implemented in Go. You can find the backend server by [clicking here](https://github.com/marcosduarte-dev/TaskChrono-Back).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### 🔧 Installing
 
-## Running unit tests
+You can perform a local installation by running the following Docker Compose:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+docker-compose.yaml
+```
 
-## Running end-to-end tests
+## 🛠️ Built With
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+* [Angular](https://angular.io) - Web Framework
+* [PostgreSQL](https://www.postgresql.org) - Database
+* [BackEnd](https://github.com/marcosduarte-dev/TaskChrono-Back) - TaskChrono Back End
 
-## Further help
+## 📌 Versioning
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1.0
