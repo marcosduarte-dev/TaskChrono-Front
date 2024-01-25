@@ -4,12 +4,13 @@ import { Observable, catchError, retry } from 'rxjs';
 import { TaskModel } from '../../models/task.model';
 import { ReturnModel } from '../../models/return.model';
 import { handleError } from '../../shared/util';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  url = 'http://localhost:8000/tasks/';
+  url = environment.apiUrl + '/tasks/';
 
   constructor(private httpClient: HttpClient) {}
 
