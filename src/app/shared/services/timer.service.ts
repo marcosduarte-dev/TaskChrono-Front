@@ -4,6 +4,7 @@ import { Observable, catchError, retry } from 'rxjs';
 import { TimerModel } from '../../models/timer.model';
 import { handleError } from '../util';
 import { ReturnModel } from '../../models/return.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { ReturnModel } from '../../models/return.model';
 export class TimerService {
   constructor(private httpClient: HttpClient) {}
 
-  url = 'http://localhost:8000/timers/';
+  url = environment.apiUrl + '/timers/';
 
   getByDate(date: string): Observable<TimerModel[]> {
     return this.httpClient

@@ -4,12 +4,13 @@ import { Observable, catchError, retry } from 'rxjs';
 import { ProjectModel } from '../../models/project.model';
 import { ReturnModel } from '../../models/return.model';
 import { handleError } from '../../shared/util';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  url = 'http://localhost:8000/projects/';
+  url = environment.apiUrl + '/projects/';
 
   constructor(private httpClient: HttpClient) {}
 
