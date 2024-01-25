@@ -192,6 +192,20 @@
         </div>
       </div>
       <div class="field">
+        <label for="description">Project</label>
+        <p-dropdown
+          [options]="projects"
+          [(ngModel)]="selectedProject"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a Project"
+        ></p-dropdown>
+
+        <small class="p-error" *ngIf="submitted && !task.project_id"
+          >Project is required.</small
+        >
+      </div>
+      <div class="field">
         <label for="name">Name</label>
         <input
           type="text"
